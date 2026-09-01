@@ -1,0 +1,4 @@
+interface:
+  display_name: "Anti-Slop Design"
+  short_description: "Make product UI and copy specific, clear, and restrained"
+  default_prompt: "Use $anti-slop-design to critique or revise this product surface without generic AI copy, decorative UI defaults, invented claims, or unnecessary redesign."

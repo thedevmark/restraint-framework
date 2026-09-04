@@ -32,7 +32,7 @@ The boundary, stated plainly: this governs surfaces and verification honesty —
 
 ## Install
 
-Clone straight into your agent's skills directory (previously `ai-restraint`, before that `anti-slop-design`; old links still redirect):
+Clone straight into your agent's skills directory:
 
 ```bash
 # Claude Code

@@ -1,11 +1,12 @@
-# Anti-Slop Design
+# AI Restraint
 
-A restraint-first design and writing critique skill for coding agents. Give it a product surface — UI, a landing page, a dashboard, store art, charts, interface copy — and it names the concrete patterns that make the work feel generated, then makes the minimum effective changes to the real product instead of rebuilding a generic version of it.
+A restraint framework for everything a coding agent ships — interfaces, copy, dashboards, charts, store art, docs, and the claims it makes about its own verification. It runs at every stage of the process: creating, critiquing, revising, and reporting what was actually checked. Give it a surface and it names the concrete patterns that make the work feel generated, then makes the minimum effective changes to the real product instead of rebuilding a generic version of it.
 
 It runs on any agent that loads the Agent Skills convention (`SKILL.md` plus reference files): Claude Code, Codex, ZCode, and others. The skill is plain markdown, so it also works as a standalone review checklist for a human.
 
 ## What it actually does
 
+- **A framework, not a prompt.** Three operating modes × four surface modes × an eight-pass workflow × ordered priorities, closed by a completion gate. The same discipline applies from first draft to final verification.
 - **Three operating modes.** Create (ground, build, verify), critique (report the few highest-leverage findings, edit nothing), revise (audit, minimal changes, re-audit).
 - **Four surface modes.** Persuade, operate, read, experience — chosen from the surface in front of the user, because a landing page, a dashboard, and documentation fail in different ways.
 - **An eight-pass workflow.** Ground the artifact in its real content and tokens, separate evidence from judgment, commit to one direction, edit copy semantically, flatten decorative structure, spend visual emphasis deliberately, pass the accessibility gate, then implement and verify.
@@ -13,19 +14,35 @@ It runs on any agent that loads the Agent Skills convention (`SKILL.md` plus ref
 - **Priorities with an order.** P0 truth and access failures before P1 hierarchy failures before P2 polish. No polishing decoration while the page's job is unclear.
 - **It protects your product.** Established tokens and component contracts are normative, canonical assets get reused rather than imitated, and if the work is already distinctive it says so and stops instead of manufacturing a redesign.
 
+## Scope check
+
+The claim is "every part of the process that ships a surface." Check it against the files instead of trusting this README:
+
+| claim | enforced by |
+|---|---|
+| No fluff in copy | `references/writing-and-copy.md` — semantic redundancy pass, pattern clusters, weak vocabulary |
+| Nothing invented | SKILL.md priorities — fabricated claims, invented metrics, testimonials, and outcomes are P0 failures |
+| Looks good, not decorated | `references/visual-and-interaction.md` — tell catalog, emphasis rules, squint test |
+| Fits your product, not a template | SKILL.md passes 1 and 3 — grounding in real content and tokens, one committed direction |
+| Survives real use | SKILL.md pass 7 — keyboard, focus, states, zoom, reduced motion |
+| Honest about what was verified | `references/evidence-and-testing.md` — labeled evidence; never claim a render or test that did not happen |
+| Iterates without thrashing | decision ledger, one coherent batch plus one confirmation pass, feedback handling in `references/promotional-assets-and-feedback.md` |
+
+The boundary, stated plainly: this governs surfaces and verification honesty — UI, copy, assets, and reporting. It is not a backend linter and does not review your algorithms. "Every part of the development process" means every part a human sees, plus every claim about what happened.
+
 ## Install
 
-Clone straight into your agent's skills directory:
+Clone straight into your agent's skills directory (previously `anti-slop-design`; old links still redirect):
 
 ```bash
 # Claude Code
-git clone https://github.com/thedevmark/anti-slop-design.git ~/.claude/skills/anti-slop-design
+git clone https://github.com/thedevmark/ai-restraint.git ~/.claude/skills/ai-restraint
 
 # Codex
-git clone https://github.com/thedevmark/anti-slop-design.git ~/.codex/skills/anti-slop-design
+git clone https://github.com/thedevmark/ai-restraint.git ~/.codex/skills/ai-restraint
 
 # ZCode
-git clone https://github.com/thedevmark/anti-slop-design.git ~/.zcode/skills/anti-slop-design
+git clone https://github.com/thedevmark/ai-restraint.git ~/.zcode/skills/ai-restraint
 ```
 
 On Windows the same commands work in Git Bash; in PowerShell replace `~/` with your home directory. To share one copy across agents, clone once and symlink the others into it. For a single project only, clone into `.claude/skills/` (or your agent's project-level equivalent) inside the repo.
@@ -36,7 +53,7 @@ No skill infrastructure? Open `SKILL.md`, read it, and apply it. That is the who
 
 Ask your agent, in plain language:
 
-- "Use anti-slop-design to critique the pricing page."
+- "Use ai-restraint to critique the pricing page."
 - "Revise the empty states on the dashboard. Distill, don't redesign."
 - "Audit this store screenshot set for slop before I ship it."
 
@@ -55,7 +72,7 @@ The skill also triggers on words like polish, hierarchy, taste, density, clarify
 
 ## Where this fits: context engineering
 
-This skill is one public piece of a context-engineering system I am building across my repositories. The premise: you get better agent work by engineering what the agent sees than by writing a cleverer prompt. Each repo carries its own operating context — an `AGENTS.md` that is the single authority, thin tool adapters instead of duplicated instructions, a routing index that loads only task-relevant files on demand, guarded versioned memory for durable facts, compaction and sub-agent isolation conventions, and an executable test that fails when the context layer itself drifts. The repos prompt themselves; the agent arrives routed.
+This framework is one public piece of a context-engineering system I am building across my repositories. The premise: you get better agent work by engineering what the agent sees than by writing a cleverer prompt. Each repo carries its own operating context — an `AGENTS.md` that is the single authority, thin tool adapters instead of duplicated instructions, a routing index that loads only task-relevant files on demand, guarded versioned memory for durable facts, compaction and sub-agent isolation conventions, and an executable test that fails when the context layer itself drifts. The repos prompt themselves; the agent arrives routed.
 
 This repo is the shareable surface of that system: the skill that keeps the output honest while the context layer keeps the input honest. The private side is in active development and in daily use.
 

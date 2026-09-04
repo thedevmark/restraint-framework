@@ -1,4 +1,4 @@
-# AI Restraint
+# Restraint Framework
 
 A restraint framework for everything a coding agent ships — interfaces, copy, dashboards, charts, store art, docs, and the claims it makes about its own verification. It runs at every stage of the process: creating, critiquing, revising, and reporting what was actually checked. Give it a surface and it names the concrete patterns that make the work feel generated, then makes the minimum effective changes to the real product instead of rebuilding a generic version of it.
 
@@ -32,17 +32,17 @@ The boundary, stated plainly: this governs surfaces and verification honesty —
 
 ## Install
 
-Clone straight into your agent's skills directory (previously `anti-slop-design`; old links still redirect):
+Clone straight into your agent's skills directory (previously `ai-restraint`, before that `anti-slop-design`; old links still redirect):
 
 ```bash
 # Claude Code
-git clone https://github.com/thedevmark/ai-restraint.git ~/.claude/skills/ai-restraint
+git clone https://github.com/thedevmark/restraint-framework.git ~/.claude/skills/restraint-framework
 
 # Codex
-git clone https://github.com/thedevmark/ai-restraint.git ~/.codex/skills/ai-restraint
+git clone https://github.com/thedevmark/restraint-framework.git ~/.codex/skills/restraint-framework
 
 # ZCode
-git clone https://github.com/thedevmark/ai-restraint.git ~/.zcode/skills/ai-restraint
+git clone https://github.com/thedevmark/restraint-framework.git ~/.zcode/skills/restraint-framework
 ```
 
 On Windows the same commands work in Git Bash; in PowerShell replace `~/` with your home directory. To share one copy across agents, clone once and symlink the others into it. For a single project only, clone into `.claude/skills/` (or your agent's project-level equivalent) inside the repo.
@@ -53,7 +53,7 @@ No skill infrastructure? Open `SKILL.md`, read it, and apply it. That is the who
 
 Ask your agent, in plain language:
 
-- "Use ai-restraint to critique the pricing page."
+- "Use restraint-framework to critique the pricing page."
 - "Revise the empty states on the dashboard. Distill, don't redesign."
 - "Audit this store screenshot set for slop before I ship it."
 

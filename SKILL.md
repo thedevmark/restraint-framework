@@ -1,9 +1,9 @@
 ---
-name: ai-restraint
+name: restraint-framework
 description: Restraint framework for coding agents, applied to everything they ship that a human sees and every claim they make about verification - interfaces, dashboards, landing pages, promotional assets, store screenshots, thumbnails, charts, diagrams, slides, docs, interface copy, and marketing copy, across creating, critiquing, revising, and reporting. Use when creating or revising React/CSS UI, layouts, design systems, data visualizations, interface copy, or marketing copy inside a design; when work feels generic, AI-made, over-carded, over-written, glowy, decorative, unclear, or templated; or when the user asks for anti-slop, taste, hierarchy, density, typography, palette, interaction, accessibility, content design, human-sounding copy, critique, audit, clarify, distill, harden, polish, bolder, quieter, or surgical visual refinement.
 ---
 
-# AI Restraint
+# Restraint Framework
 
 Make the artifact specific to its subject and easy to use. Treat slop as an accumulation of unearned defaults, not a list of forbidden fonts, colors, words, or components.
 

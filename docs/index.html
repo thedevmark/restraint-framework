@@ -6,170 +6,152 @@
 <title>restraint-framework — a before/after</title>
 <style>
   :root {
-    --ink:#191817; --sub:#5d5a54; --faint:#8b877f;
-    --line:#e2dfd7; --line2:#d3cfc5;
-    --paper:#f6f4ef; --card:#fffdf9;
-    --accent:#0b5d3b; --accent-soft:#e7f0eb;
-    --slop-ink:#241f3a;
+    --ink:#161410; --sub:#57534a; --faint:#8a857a;
+    --paper:#fbfaf6; --card:#ffffff;
+    --line:#e5e1d6; --red:#b3261e; --red-soft:#f9ece9;
   }
   * { box-sizing:border-box; margin:0; padding:0; }
-  html { scroll-behavior:smooth; }
-  body {
-    font:16px/1.6 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color:var(--ink); background:var(--paper);
-    -webkit-font-smoothing:antialiased;
-  }
-  ::selection { background:var(--accent); color:#fff; }
-  .mono { font-family:ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace; }
-  a { color:var(--accent); text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  body { font:16px/1.6 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color:var(--ink); background:var(--paper); }
+  ::selection { background:var(--red); color:#fff; }
+  a { color:var(--ink); text-decoration:underline; text-decoration-color:var(--red); text-underline-offset:3px; }
   a:hover { text-decoration-thickness:2px; }
+  .wrap { max-width:1200px; margin:0 auto; padding:0 28px 72px; }
 
-  .wrap { max-width:1240px; margin:0 auto; padding:0 28px 72px; }
+  header.page { padding:64px 0 34px; border-bottom:3px solid var(--ink); }
+  header.page h1 { font-family:Georgia, "Times New Roman", serif; font-size:clamp(38px, 5.4vw, 58px); line-height:1.0; letter-spacing:-0.022em; font-weight:700; }
+  header.page h1 .slash { color:var(--red); font-style:italic; padding:0 .08em; }
+  header.page .lede { max-width:56ch; color:var(--sub); font-size:16px; margin-top:18px; }
+  header.page .lede a { font-weight:600; }
 
-  /* ---------- header ---------- */
-  header.page { padding:54px 0 30px; border-bottom:2px solid var(--ink); display:flex; flex-wrap:wrap; gap:8px 40px; align-items:end; justify-content:space-between; }
-  .eyebrow { font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--sub); margin-bottom:14px; }
-  .eyebrow b { color:var(--accent); font-weight:600; }
-  header.page h1 { font-size:clamp(30px, 4.6vw, 46px); line-height:1.04; letter-spacing:-0.028em; font-weight:700; max-width:16ch; }
-  header.page .lede { max-width:52ch; color:var(--sub); font-size:15.5px; padding-bottom:6px; }
-  header.page .lede a { color:var(--ink); font-weight:600; }
+  .row-labels { display:flex; justify-content:space-between; align-items:baseline; padding:28px 0 14px; gap:16px; }
+  .row-labels .hint { font-size:13.5px; color:var(--faint); font-style:italic; font-family:Georgia, serif; }
 
-  /* ---------- specimen row ---------- */
-  .row-labels { display:flex; justify-content:space-between; align-items:center; padding:26px 0 12px; gap:16px; }
-  .row-labels .hint { font-size:12.5px; color:var(--faint); }
-  .split { display:grid; grid-template-columns:1fr 1fr; gap:26px; align-items:start; }
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:30px; align-items:start; }
   @media (max-width:920px){ .split { grid-template-columns:1fr; } }
 
-  .tag { display:inline-flex; align-items:baseline; gap:8px; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--sub); margin-bottom:10px; font-weight:600; }
-  .tag .n { font-family:ui-monospace, Menlo, Consolas, monospace; color:var(--accent); font-size:11px; }
+  .tag { display:block; font-size:13px; font-weight:700; letter-spacing:.02em; margin-bottom:10px; }
+  .tag em { font-family:Georgia, serif; font-weight:400; color:var(--sub); }
 
-  .frame { background:var(--card); border:1px solid var(--line2); border-radius:10px; overflow:hidden;
-           box-shadow:0 1px 2px rgba(25,24,23,.05), 0 12px 32px -18px rgba(25,24,23,.25); }
-  .bar { display:flex; align-items:center; gap:6px; padding:9px 12px; border-bottom:1px solid var(--line); background:#faf8f3; }
-  .bar i { width:9px; height:9px; border-radius:50%; background:var(--line2); display:inline-block; }
-  .bar .url { margin-left:8px; font-family:ui-monospace, Menlo, Consolas, monospace; font-size:10.5px; color:var(--faint);
-              background:#f1efe8; border-radius:4px; padding:2px 10px; }
+  .panel { background:var(--card); border:1px solid var(--line); box-shadow:0 14px 34px -20px rgba(22,20,16,.35); }
 
-  /* highlight linkage */
-  [data-note] { transition:box-shadow .12s ease, background .12s ease, outline-color .12s ease; outline:2px solid transparent; outline-offset:3px; border-radius:4px; }
-  .lit [data-note].on { outline-color:var(--accent); background:var(--accent-soft); }
+  /* red proof marks */
+  .pen { text-decoration:underline wavy var(--red); text-decoration-thickness:2px; text-underline-offset:5px; }
+  .strike { position:relative; }
+  .strike::after { content:""; position:absolute; left:-3%; right:-3%; top:54%; height:2.5px; background:var(--red); transform:rotate(-1.6deg); }
+  .flag { display:inline-grid; place-items:center; min-width:19px; height:19px; padding:0 3px;
+          border:2px solid var(--red); color:var(--red); border-radius:50%;
+          font-family:Georgia, serif; font-size:12px; font-weight:700; font-style:normal;
+          margin-left:7px; vertical-align:2px; background:#fff; }
 
-  /* ---------- the exhibit (before) ---------- */
-  .slop nav { display:flex; justify-content:space-between; align-items:center; padding:11px 16px; border-bottom:1px solid #eceaf6; font-size:13px; color:var(--slop-ink); }
-  .slop nav b { font-size:14px; }
-  .slop .hero { background:linear-gradient(135deg,#6a11cb 0%,#2575fc 100%); color:#fff; text-align:center; padding:36px 22px; }
+  /* hover linkage */
+  [data-note] { outline:2px solid transparent; outline-offset:4px; transition:outline-color .12s, background .12s; }
+  [data-note].on { outline-color:var(--red); background:var(--red-soft); }
+
+  /* ---------- exhibit: before, marked up ---------- */
+  .slop nav { display:flex; justify-content:space-between; align-items:center; padding:12px 18px; border-bottom:1px solid #eceaf6; font-size:13.5px; color:#241f3a; }
+  .slop nav b { font-size:14.5px; }
+  .slop .hero { background:linear-gradient(135deg,#6a11cb 0%,#2575fc 100%); color:#fff; text-align:center; padding:38px 22px; }
   .slop .hero h2 { font-size:23px; margin-bottom:8px; }
   .slop .hero p { font-size:13.5px; opacity:.95; max-width:40ch; margin:0 auto 14px; }
   .slop .btn { display:inline-block; background:#ffd633; color:#333; font-weight:700; padding:9px 22px; border-radius:99px; font-size:13.5px; text-decoration:none; }
-  .slop .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:18px 16px; }
-  .slop .card { border:1px solid #e8e8f0; border-radius:10px; padding:14px; text-align:center; box-shadow:0 2px 8px rgba(80,60,180,.07); color:var(--slop-ink); }
+  .slop .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:18px 16px; align-items:center; }
+  .slop .card { border:1px solid #e8e8f0; border-radius:10px; padding:14px; text-align:center; box-shadow:0 2px 8px rgba(80,60,180,.07); color:#241f3a; }
   .slop .card h3 { font-size:13.5px; margin:6px 0 4px; }
   .slop .card p { font-size:12px; color:#666; }
-  .slop .stats { display:flex; justify-content:space-around; padding:14px 10px; background:#f6f4ff; font-size:12.5px; color:var(--slop-ink); }
+  .slop .stats { display:flex; justify-content:space-around; padding:14px 10px; background:#f6f4ff; font-size:12.5px; color:#241f3a; align-items:center; }
   .slop .stats b { display:block; font-size:18px; color:#5a3ecb; }
   .slop .quote { text-align:center; padding:16px 22px; font-style:italic; color:#444; font-size:13.5px; }
   .slop .finalcta { background:#222; color:#fff; text-align:center; padding:14px; font-size:13.5px; }
+  .slop .finalcta .flag { background:#222; }
 
-  /* ---------- the exhibit (after) ---------- */
-  .clean .crumb { padding:11px 18px; border-bottom:1px solid var(--line); font-size:13px; display:flex; justify-content:space-between; align-items:center; }
+  /* ---------- exhibit: after ---------- */
+  .clean .crumb { padding:12px 18px; border-bottom:1px solid var(--line); font-size:13.5px; display:flex; justify-content:space-between; align-items:center; }
   .clean .crumb a { font-weight:600; }
-  .clean .hero { padding:30px 20px 24px; border-bottom:1px solid var(--line); }
-  .clean .hero h2 { font-size:21px; letter-spacing:-0.015em; }
-  .clean .hero p { color:var(--sub); font-size:14px; margin-top:7px; max-width:44ch; }
-  .clean .hero .dl { display:block; margin-top:13px; color:var(--accent); font-weight:600; text-decoration:none; font-size:14px; }
-  .clean .facts { padding:4px 20px 8px; list-style:none; }
-  .clean .facts li { padding:12px 0; border-bottom:1px solid var(--line); font-size:14px; }
+  .clean .hero { padding:32px 22px 26px; border-bottom:1px solid var(--line); }
+  .clean .hero h2 { font-family:Georgia, serif; font-size:24px; letter-spacing:-0.01em; }
+  .clean .hero p { color:var(--sub); font-size:14.5px; margin-top:8px; max-width:44ch; }
+  .clean .hero .dl { display:block; margin-top:14px; color:var(--ink); font-weight:600; font-size:14.5px; }
+  .clean .facts { padding:4px 22px 8px; list-style:none; }
+  .clean .facts li { padding:13px 0; border-bottom:1px solid var(--line); font-size:14.5px; }
   .clean .facts li:last-child { border-bottom:0; }
-  .clean .facts b { display:block; font-size:14.5px; margin-bottom:2px; }
+  .clean .facts b { display:block; font-size:15px; margin-bottom:2px; }
   .clean .facts span { color:var(--sub); }
-  .clean .trust { padding:12px 20px 15px; color:var(--sub); font-size:12.5px; border-top:1px solid var(--line); }
+  .clean .trust { padding:13px 22px 16px; color:var(--sub); font-size:13px; border-top:1px solid var(--line); }
 
-  /* ---------- annotations ---------- */
-  .notes { margin-top:46px; }
-  .notes > h3 { font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--sub);
-                padding-bottom:12px; border-bottom:2px solid var(--ink); margin-bottom:6px; }
-  .notes ol { list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:0 44px; }
-  @media (max-width:920px){ .notes ol { grid-template-columns:1fr; } }
-  .notes li { display:flex; gap:14px; padding:16px 0 14px; border-bottom:1px solid var(--line); font-size:14px; max-width:64ch; }
-  .notes .idx { flex:none; width:24px; height:24px; margin-top:1px; display:grid; place-items:center;
-                background:var(--ink); color:#fff; font-family:ui-monospace, Menlo, Consolas, monospace;
-                font-size:11.5px; border-radius:4px; transition:background .12s ease; }
-  .notes li:hover .idx { background:var(--accent); }
+  /* ---------- notes ---------- */
+  .notes { margin-top:52px; }
+  .notes > h3 { font-family:Georgia, serif; font-size:22px; letter-spacing:-0.01em; padding-bottom:12px; border-bottom:3px solid var(--ink); }
+  .notes ol { list-style:none; column-count:2; column-gap:48px; }
+  @media (max-width:920px){ .notes ol { column-count:1; } }
+  .notes li { display:flex; gap:14px; padding:17px 0 15px; border-bottom:1px solid var(--line); font-size:14.5px; break-inside:avoid; max-width:64ch; }
+  .notes .idx { flex:none; width:23px; height:23px; margin-top:2px; display:grid; place-items:center;
+                border:2px solid var(--red); color:var(--red); border-radius:50%;
+                font-family:Georgia, serif; font-size:12.5px; font-weight:700; transition:background .12s, color .12s; }
+  .notes li:hover .idx { background:var(--red); color:#fff; }
   .notes b { display:block; margin-bottom:2px; }
 
-  footer.page { margin-top:46px; padding-top:16px; border-top:2px solid var(--ink);
-                display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; color:var(--sub); font-size:13px; }
-  footer.page .mono { font-size:11.5px; color:var(--faint); }
+  footer.page { margin-top:52px; padding-top:18px; border-top:3px solid var(--ink); color:var(--sub); font-size:14px; max-width:70ch; }
 
-  @media (prefers-reduced-motion: reduce) {
-    * { transition:none !important; scroll-behavior:auto; }
-  }
-  :focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce){ * { transition:none !important; } }
+  :focus-visible { outline:2px solid var(--red); outline-offset:2px; }
 </style>
 </head>
-<body class="lit">
+<body>
 <div class="wrap">
 
   <header class="page">
-    <div>
-      <div class="eyebrow mono"><b>restraint-framework</b> · demo</div>
-      <h1>A before/after</h1>
-    </div>
+    <h1>A before<span class="slash">/</span>after.</h1>
     <p class="lede">One made-up product page, built twice. The left panel is what a coding agent produces when nobody intervenes; the right panel is the same content run through the <a href="https://github.com/thedevmark/restraint-framework">restraint-framework</a> skill. TaskFlow does not exist. The patterns on the left arrive unrequested in real agent output every day.</p>
   </header>
 
   <div class="row-labels">
-    <span class="mono" style="font-size:11px; letter-spacing:.12em; color:var(--faint); text-transform:uppercase;">Exhibit A / B — same content, two processes</span>
-    <span class="hint">Hover a note below to light up what it refers to.</span>
+    <span class="hint">Red marks on the left are the skill&rsquo;s critique, applied where the problems live.</span>
+    <span class="hint">Hover a note to light up what it refers to.</span>
   </div>
 
   <div class="split">
 
     <section>
-      <div class="tag">Before <span class="n">· the defaults</span></div>
-      <div class="frame">
-        <div class="bar"><i></i><i></i><i></i><span class="url">taskflow.app</span></div>
-        <div class="panel slop">
-          <nav><b>TaskFlow</b><a class="btn" style="padding:5px 14px;font-size:12px" href="#">Get Started</a></nav>
-          <div class="hero" data-note="1">
-            <h2>Supercharge Your Productivity with TaskFlow</h2>
-            <p>Unlock seamless workflows and elevate your daily tasks to the next level. The intelligent workspace that empowers modern teams to achieve more, effortlessly.</p>
-            <a class="btn" href="#">Get Started</a>
-          </div>
-          <div class="cards" data-note="3">
-            <div class="card"><div>⚡</div><h3>Lightning Fast</h3><p>Experience blazing-fast performance like never before.</p></div>
-            <div class="card"><div>🎨</div><h3>Beautiful Design</h3><p>Stunning interfaces that inspire creativity every day.</p></div>
-            <div class="card"><div>🔒</div><h3>Secure by Design</h3><p>Enterprise-grade security you can always trust.</p></div>
-          </div>
-          <div class="stats" data-note="2">
-            <div><b>10x</b>productivity boost</div>
-            <div><b>50k</b>happy users</div>
-            <div><b>99.99%</b>uptime</div>
-          </div>
-          <div class="quote" data-note="2">&ldquo;TaskFlow completely changed my life!&rdquo; — Sarah M., CEO</div>
-          <div class="finalcta" data-note="4">Ready to transform your workflow? <a class="btn" style="font-size:12px;padding:6px 14px" href="#">Get Started</a></div>
+      <div class="tag">BEFORE <em>— the defaults, marked up</em></div>
+      <div class="panel slop">
+        <nav><b>TaskFlow</b><a class="btn" style="padding:5px 14px;font-size:12px" href="#">Get Started</a></nav>
+        <div class="hero" data-note="1">
+          <h2><span class="pen">Supercharge Your Productivity</span> with TaskFlow<span class="flag">1</span></h2>
+          <p>Unlock seamless workflows and elevate your daily tasks to the next level. The intelligent workspace that empowers modern teams to achieve more, effortlessly.</p>
+          <a class="btn" href="#">Get Started</a>
         </div>
+        <div class="cards" data-note="3">
+          <div class="card"><div>⚡</div><h3>Lightning Fast</h3><p>Experience blazing-fast performance like never before.</p></div>
+          <div class="card"><div>🎨</div><h3>Beautiful Design</h3><p>Stunning interfaces that inspire creativity every day.</p></div>
+          <div class="card"><div>🔒</div><h3>Secure by Design</h3><p>Enterprise-grade security you can always trust.</p></div>
+          <span class="flag">3</span>
+        </div>
+        <div class="stats" data-note="2">
+          <div class="strike"><b>10x</b>productivity boost</div>
+          <div class="strike"><b>50k</b>happy users</div>
+          <div class="strike"><b>99.99%</b>uptime</div>
+          <span class="flag">2</span>
+        </div>
+        <div class="quote strike" data-note="2">&ldquo;TaskFlow completely changed my life!&rdquo; — Sarah M., CEO</div>
+        <div class="finalcta" data-note="4">Ready to transform your workflow? <a class="btn" style="font-size:12px;padding:6px 14px" href="#">Get Started</a><span class="flag">4</span></div>
       </div>
     </section>
 
     <section>
-      <div class="tag">After <span class="n">· restraint applied</span></div>
-      <div class="frame">
-        <div class="bar"><i></i><i></i><i></i><span class="url">taskflow.app</span></div>
-        <div class="panel clean">
-          <div class="crumb"><b>TaskFlow</b><a href="#">Download</a></div>
-          <div class="hero" data-note="1">
-            <h2>A to-do list that works offline</h2>
-            <p>Tasks live on your machine and sync between devices with end-to-end encryption. No account to start, and your list exports to plain text any time.</p>
-            <a class="dl" href="#" data-note="4">Download for macOS, Windows, Linux — 14 MB</a>
-          </div>
-          <ul class="facts" data-note="3">
-            <li><b>New task in two keystrokes</b><span>Keyboard-first entry; the mouse is optional everywhere.</span></li>
-            <li><b>Local-first storage</b><span>Reads and writes on your disk. Works on a plane; sync catches up after landing.</span></li>
-            <li><b>Plain-text export</b><span>One command produces a file other tools can read. Nothing is captive.</span></li>
-          </ul>
-          <div class="trust" data-note="2">Built by two people. Issue tracker public. Free while in beta — pricing will be posted before the first charge.</div>
+      <div class="tag">AFTER <em>— restraint applied</em></div>
+      <div class="panel clean">
+        <div class="crumb"><b>TaskFlow</b><a href="#">Download</a></div>
+        <div class="hero" data-note="1">
+          <h2>A to-do list that works offline</h2>
+          <p>Tasks live on your machine and sync between devices with end-to-end encryption. No account to start, and your list exports to plain text any time.</p>
+          <a class="dl" href="#" data-note="4">Download for macOS, Windows, Linux — 14 MB</a>
         </div>
+        <ul class="facts" data-note="3">
+          <li><b>New task in two keystrokes</b><span>Keyboard-first entry; the mouse is optional everywhere.</span></li>
+          <li><b>Local-first storage</b><span>Reads and writes on your disk. Works on a plane; sync catches up after landing.</span></li>
+          <li><b>Plain-text export</b><span>One command produces a file other tools can read. Nothing is captive.</span></li>
+        </ul>
+        <div class="trust" data-note="2">Built by two people. Issue tracker public. Free while in beta — pricing will be posted before the first charge.</div>
       </div>
     </section>
 
@@ -188,8 +170,7 @@
   </div>
 
   <footer class="page">
-    <div>Demo ships with <a href="https://github.com/thedevmark/restraint-framework">restraint-framework</a>, a restraint-first design and writing skill for coding agents. The before panel is a reconstruction of the defaults, not any specific product&rsquo;s page.</div>
-    <div class="mono">single file · no dependencies · no tracking</div>
+    Demo ships with <a href="https://github.com/thedevmark/restraint-framework">restraint-framework</a>, a restraint-first design and writing skill for coding agents. The before panel is a reconstruction of the defaults, not any specific product&rsquo;s page.
   </footer>
 
 </div>

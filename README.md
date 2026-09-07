@@ -2,7 +2,7 @@
 
 A restraint framework for everything a coding agent ships — interfaces, copy, dashboards, charts, store art, docs, and the claims it makes about its own verification. It runs at every stage of the process: creating, critiquing, revising, and reporting what was actually checked. Give it a surface and it names the concrete patterns that make the work feel generated, then makes the minimum effective changes to the real product instead of rebuilding a generic version of it.
 
-**See it work:** a [before/after demo](https://thedevmark.github.io/restraint-framework/) — one product page, shown once as agents ship it by default and once under restraint.
+A [before/after demo](https://thedevmark.github.io/restraint-framework/) shows one product page as agents ship it by default, and the same page after the skill runs.
 
 It runs on any agent that loads the Agent Skills convention (`SKILL.md` plus reference files): Claude Code, Codex, ZCode, and others. The skill is plain markdown, so it also works as a standalone review checklist for a human.
 

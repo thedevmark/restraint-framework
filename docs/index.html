@@ -5,133 +5,207 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>restraint-framework — a before/after</title>
 <style>
-  :root { --ink:#1a1a1a; --sub:#5c5c5c; --line:#e4e4e4; --accent:#0a5c3c; --bg:#fafafa; }
+  :root {
+    --ink:#191817; --sub:#5d5a54; --faint:#8b877f;
+    --line:#e2dfd7; --line2:#d3cfc5;
+    --paper:#f6f4ef; --card:#fffdf9;
+    --accent:#0b5d3b; --accent-soft:#e7f0eb;
+    --slop-ink:#241f3a;
+  }
   * { box-sizing:border-box; margin:0; padding:0; }
-  body { font:16px/1.55 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color:var(--ink); background:var(--bg); }
-  .wrap { max-width:1180px; margin:0 auto; padding:28px 20px 60px; }
+  html { scroll-behavior:smooth; }
+  body {
+    font:16px/1.6 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color:var(--ink); background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection { background:var(--accent); color:#fff; }
+  .mono { font-family:ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace; }
+  a { color:var(--accent); text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+  a:hover { text-decoration-thickness:2px; }
 
-  header.page { border-bottom:1px solid var(--line); padding-bottom:18px; margin-bottom:26px; }
-  header.page h1 { font-size:20px; font-weight:650; letter-spacing:-0.01em; }
-  header.page p { color:var(--sub); font-size:14.5px; margin-top:4px; max-width:60ch; }
-  header.page a { color:var(--accent); text-decoration:none; }
+  .wrap { max-width:1240px; margin:0 auto; padding:0 28px 72px; }
 
-  .split { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
-  @media (max-width:860px){ .split { grid-template-columns:1fr; } }
-  .panel-tag { font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--sub); margin-bottom:8px; font-weight:600; }
-  .panel { border:1px solid var(--line); background:#fff; border-radius:8px; overflow:hidden; }
+  /* ---------- header ---------- */
+  header.page { padding:54px 0 30px; border-bottom:2px solid var(--ink); display:flex; flex-wrap:wrap; gap:8px 40px; align-items:end; justify-content:space-between; }
+  .eyebrow { font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--sub); margin-bottom:14px; }
+  .eyebrow b { color:var(--accent); font-weight:600; }
+  header.page h1 { font-size:clamp(30px, 4.6vw, 46px); line-height:1.04; letter-spacing:-0.028em; font-weight:700; max-width:16ch; }
+  header.page .lede { max-width:52ch; color:var(--sub); font-size:15.5px; padding-bottom:6px; }
+  header.page .lede a { color:var(--ink); font-weight:600; }
 
-  /* ---------- the exhibit: deliberately generated-looking ---------- */
-  .slop .hero { background:linear-gradient(135deg,#6a11cb 0%,#2575fc 100%); color:#fff; text-align:center; padding:38px 22px; }
-  .slop .hero h2 { font-size:24px; margin-bottom:8px; }
-  .slop .hero p { font-size:14px; opacity:.95; max-width:40ch; margin:0 auto 14px; }
-  .slop .btn { display:inline-block; background:#ffd633; color:#333; font-weight:700; padding:9px 22px; border-radius:99px; font-size:14px; }
-  .slop nav { display:flex; justify-content:space-between; align-items:center; padding:10px 16px; border-bottom:1px solid #eee; font-size:13px; }
+  /* ---------- specimen row ---------- */
+  .row-labels { display:flex; justify-content:space-between; align-items:center; padding:26px 0 12px; gap:16px; }
+  .row-labels .hint { font-size:12.5px; color:var(--faint); }
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:26px; align-items:start; }
+  @media (max-width:920px){ .split { grid-template-columns:1fr; } }
+
+  .tag { display:inline-flex; align-items:baseline; gap:8px; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--sub); margin-bottom:10px; font-weight:600; }
+  .tag .n { font-family:ui-monospace, Menlo, Consolas, monospace; color:var(--accent); font-size:11px; }
+
+  .frame { background:var(--card); border:1px solid var(--line2); border-radius:10px; overflow:hidden;
+           box-shadow:0 1px 2px rgba(25,24,23,.05), 0 12px 32px -18px rgba(25,24,23,.25); }
+  .bar { display:flex; align-items:center; gap:6px; padding:9px 12px; border-bottom:1px solid var(--line); background:#faf8f3; }
+  .bar i { width:9px; height:9px; border-radius:50%; background:var(--line2); display:inline-block; }
+  .bar .url { margin-left:8px; font-family:ui-monospace, Menlo, Consolas, monospace; font-size:10.5px; color:var(--faint);
+              background:#f1efe8; border-radius:4px; padding:2px 10px; }
+
+  /* highlight linkage */
+  [data-note] { transition:box-shadow .12s ease, background .12s ease, outline-color .12s ease; outline:2px solid transparent; outline-offset:3px; border-radius:4px; }
+  .lit [data-note].on { outline-color:var(--accent); background:var(--accent-soft); }
+
+  /* ---------- the exhibit (before) ---------- */
+  .slop nav { display:flex; justify-content:space-between; align-items:center; padding:11px 16px; border-bottom:1px solid #eceaf6; font-size:13px; color:var(--slop-ink); }
   .slop nav b { font-size:14px; }
+  .slop .hero { background:linear-gradient(135deg,#6a11cb 0%,#2575fc 100%); color:#fff; text-align:center; padding:36px 22px; }
+  .slop .hero h2 { font-size:23px; margin-bottom:8px; }
+  .slop .hero p { font-size:13.5px; opacity:.95; max-width:40ch; margin:0 auto 14px; }
+  .slop .btn { display:inline-block; background:#ffd633; color:#333; font-weight:700; padding:9px 22px; border-radius:99px; font-size:13.5px; text-decoration:none; }
   .slop .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:18px 16px; }
-  .slop .card { border:1px solid #e8e8f0; border-radius:10px; padding:14px; text-align:center; box-shadow:0 2px 8px rgba(80,60,180,.07); }
-  .slop .card h3 { font-size:14px; margin:6px 0 4px; }
-  .slop .card p { font-size:12.5px; color:#666; }
-  .slop .stats { display:flex; justify-content:space-around; padding:14px 10px; background:#f6f4ff; font-size:13px; }
+  .slop .card { border:1px solid #e8e8f0; border-radius:10px; padding:14px; text-align:center; box-shadow:0 2px 8px rgba(80,60,180,.07); color:var(--slop-ink); }
+  .slop .card h3 { font-size:13.5px; margin:6px 0 4px; }
+  .slop .card p { font-size:12px; color:#666; }
+  .slop .stats { display:flex; justify-content:space-around; padding:14px 10px; background:#f6f4ff; font-size:12.5px; color:var(--slop-ink); }
   .slop .stats b { display:block; font-size:18px; color:#5a3ecb; }
-  .slop .quote { text-align:center; padding:18px 22px; font-style:italic; color:#444; font-size:14px; }
-  .slop .finalcta { background:#222; color:#fff; text-align:center; padding:16px; font-size:14px; }
+  .slop .quote { text-align:center; padding:16px 22px; font-style:italic; color:#444; font-size:13.5px; }
+  .slop .finalcta { background:#222; color:#fff; text-align:center; padding:14px; font-size:13.5px; }
 
-  /* ---------- the same product, after restraint ---------- */
-  .clean .crumb { padding:10px 18px; border-bottom:1px solid var(--line); font-size:13px; display:flex; justify-content:space-between; align-items:center; }
-  .clean .crumb a { color:var(--accent); text-decoration:none; }
-  .clean .hero { padding:34px 20px 26px; border-bottom:1px solid var(--line); }
-  .clean .hero h2 { font-size:22px; letter-spacing:-0.01em; }
-  .clean .hero p { color:var(--sub); font-size:14.5px; margin-top:6px; max-width:44ch; }
-  .clean .hero .dl { display:block; margin-top:14px; color:var(--accent); font-weight:600; text-decoration:none; font-size:14.5px; }
-  .clean .facts { padding:6px 20px 10px; }
-  .clean .facts li { list-style:none; padding:12px 0; border-bottom:1px solid var(--line); font-size:14.5px; }
+  /* ---------- the exhibit (after) ---------- */
+  .clean .crumb { padding:11px 18px; border-bottom:1px solid var(--line); font-size:13px; display:flex; justify-content:space-between; align-items:center; }
+  .clean .crumb a { font-weight:600; }
+  .clean .hero { padding:30px 20px 24px; border-bottom:1px solid var(--line); }
+  .clean .hero h2 { font-size:21px; letter-spacing:-0.015em; }
+  .clean .hero p { color:var(--sub); font-size:14px; margin-top:7px; max-width:44ch; }
+  .clean .hero .dl { display:block; margin-top:13px; color:var(--accent); font-weight:600; text-decoration:none; font-size:14px; }
+  .clean .facts { padding:4px 20px 8px; list-style:none; }
+  .clean .facts li { padding:12px 0; border-bottom:1px solid var(--line); font-size:14px; }
   .clean .facts li:last-child { border-bottom:0; }
-  .clean .facts b { display:block; font-size:15px; margin-bottom:2px; }
+  .clean .facts b { display:block; font-size:14.5px; margin-bottom:2px; }
   .clean .facts span { color:var(--sub); }
-  .clean .trust { padding:12px 20px 16px; color:var(--sub); font-size:13px; border-top:1px solid var(--line); }
+  .clean .trust { padding:12px 20px 15px; color:var(--sub); font-size:12.5px; border-top:1px solid var(--line); }
 
   /* ---------- annotations ---------- */
-  .notes { margin-top:26px; }
-  .notes h3 { font-size:15px; margin-bottom:10px; }
-  .notes ol { padding-left:20px; color:var(--ink); }
-  .notes li { font-size:14px; margin-bottom:7px; max-width:78ch; }
-  .notes code { background:#f0f0f0; border-radius:4px; padding:1px 5px; font-size:12.5px; }
-  .mark { display:inline-block; min-width:18px; text-align:center; background:var(--accent); color:#fff; border-radius:99px; font-size:11px; font-weight:700; padding:1px 4px; margin-right:6px; position:relative; top:-1px; }
+  .notes { margin-top:46px; }
+  .notes > h3 { font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--sub);
+                padding-bottom:12px; border-bottom:2px solid var(--ink); margin-bottom:6px; }
+  .notes ol { list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:0 44px; }
+  @media (max-width:920px){ .notes ol { grid-template-columns:1fr; } }
+  .notes li { display:flex; gap:14px; padding:16px 0 14px; border-bottom:1px solid var(--line); font-size:14px; max-width:64ch; }
+  .notes .idx { flex:none; width:24px; height:24px; margin-top:1px; display:grid; place-items:center;
+                background:var(--ink); color:#fff; font-family:ui-monospace, Menlo, Consolas, monospace;
+                font-size:11.5px; border-radius:4px; transition:background .12s ease; }
+  .notes li:hover .idx { background:var(--accent); }
+  .notes b { display:block; margin-bottom:2px; }
 
-  footer.page { margin-top:34px; padding-top:14px; border-top:1px solid var(--line); color:var(--sub); font-size:13.5px; }
-  footer.page a { color:var(--accent); text-decoration:none; }
+  footer.page { margin-top:46px; padding-top:16px; border-top:2px solid var(--ink);
+                display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; color:var(--sub); font-size:13px; }
+  footer.page .mono { font-size:11.5px; color:var(--faint); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition:none !important; scroll-behavior:auto; }
+  }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
 </style>
 </head>
-<body>
+<body class="lit">
 <div class="wrap">
 
   <header class="page">
-    <h1>restraint-framework — a before/after</h1>
-    <p>One made-up product page, built twice. The left panel is what a coding agent produces when nobody intervenes; the right panel is the same content run through the <a href="https://github.com/thedevmark/restraint-framework">restraint-framework</a> skill. TaskFlow does not exist. The patterns on the left arrive unrequested in real agent output every day.</p>
+    <div>
+      <div class="eyebrow mono"><b>restraint-framework</b> · demo</div>
+      <h1>A before/after</h1>
+    </div>
+    <p class="lede">One made-up product page, built twice. The left panel is what a coding agent produces when nobody intervenes; the right panel is the same content run through the <a href="https://github.com/thedevmark/restraint-framework">restraint-framework</a> skill. TaskFlow does not exist. The patterns on the left arrive unrequested in real agent output every day.</p>
   </header>
+
+  <div class="row-labels">
+    <span class="mono" style="font-size:11px; letter-spacing:.12em; color:var(--faint); text-transform:uppercase;">Exhibit A / B — same content, two processes</span>
+    <span class="hint">Hover a note below to light up what it refers to.</span>
+  </div>
 
   <div class="split">
 
     <section>
-      <div class="panel-tag">Before — the defaults <span class="mark">1</span><span class="mark">2</span><span class="mark">3</span></div>
-      <div class="panel slop">
-        <nav><b>TaskFlow</b><a class="btn" style="padding:5px 14px;font-size:12px">Get Started</a></nav>
-        <div class="hero">
-          <h2>Supercharge Your Productivity with TaskFlow</h2>
-          <p>Unlock seamless workflows and elevate your daily tasks to the next level. The intelligent workspace that empowers modern teams to achieve more, effortlessly.</p>
-          <a class="btn">Get Started</a>
+      <div class="tag">Before <span class="n">· the defaults</span></div>
+      <div class="frame">
+        <div class="bar"><i></i><i></i><i></i><span class="url">taskflow.app</span></div>
+        <div class="panel slop">
+          <nav><b>TaskFlow</b><a class="btn" style="padding:5px 14px;font-size:12px" href="#">Get Started</a></nav>
+          <div class="hero" data-note="1">
+            <h2>Supercharge Your Productivity with TaskFlow</h2>
+            <p>Unlock seamless workflows and elevate your daily tasks to the next level. The intelligent workspace that empowers modern teams to achieve more, effortlessly.</p>
+            <a class="btn" href="#">Get Started</a>
+          </div>
+          <div class="cards" data-note="3">
+            <div class="card"><div>⚡</div><h3>Lightning Fast</h3><p>Experience blazing-fast performance like never before.</p></div>
+            <div class="card"><div>🎨</div><h3>Beautiful Design</h3><p>Stunning interfaces that inspire creativity every day.</p></div>
+            <div class="card"><div>🔒</div><h3>Secure by Design</h3><p>Enterprise-grade security you can always trust.</p></div>
+          </div>
+          <div class="stats" data-note="2">
+            <div><b>10x</b>productivity boost</div>
+            <div><b>50k</b>happy users</div>
+            <div><b>99.99%</b>uptime</div>
+          </div>
+          <div class="quote" data-note="2">&ldquo;TaskFlow completely changed my life!&rdquo; — Sarah M., CEO</div>
+          <div class="finalcta" data-note="4">Ready to transform your workflow? <a class="btn" style="font-size:12px;padding:6px 14px" href="#">Get Started</a></div>
         </div>
-        <div class="cards">
-          <div class="card"><div>⚡</div><h3>Lightning Fast</h3><p>Experience blazing-fast performance like never before.</p></div>
-          <div class="card"><div>🎨</div><h3>Beautiful Design</h3><p>Stunning interfaces that inspire creativity every day.</p></div>
-          <div class="card"><div>🔒</div><h3>Secure by Design</h3><p>Enterprise-grade security you can always trust.</p></div>
-        </div>
-        <div class="stats">
-          <div><b>10x</b>productivity boost</div>
-          <div><b>50k</b>happy users</div>
-          <div><b>99.99%</b>uptime</div>
-        </div>
-        <div class="quote">&ldquo;TaskFlow completely changed my life!&rdquo; — Sarah M., CEO</div>
-        <div class="finalcta">Ready to transform your workflow? <a class="btn" style="font-size:12px;padding:6px 14px">Get Started</a></div>
       </div>
     </section>
 
     <section>
-      <div class="panel-tag">After — same product, restraint applied <span class="mark">1</span><span class="mark">2</span><span class="mark">3</span></div>
-      <div class="panel clean">
-        <div class="crumb"><b>TaskFlow</b><a href="#">Download</a></div>
-        <div class="hero">
-          <h2>A to-do list that works offline</h2>
-          <p>Tasks live on your machine and sync between devices with end-to-end encryption. No account to start, and your list exports to plain text any time.</p>
-          <a class="dl" href="#">Download for macOS, Windows, Linux — 14 MB</a>
+      <div class="tag">After <span class="n">· restraint applied</span></div>
+      <div class="frame">
+        <div class="bar"><i></i><i></i><i></i><span class="url">taskflow.app</span></div>
+        <div class="panel clean">
+          <div class="crumb"><b>TaskFlow</b><a href="#">Download</a></div>
+          <div class="hero" data-note="1">
+            <h2>A to-do list that works offline</h2>
+            <p>Tasks live on your machine and sync between devices with end-to-end encryption. No account to start, and your list exports to plain text any time.</p>
+            <a class="dl" href="#" data-note="4">Download for macOS, Windows, Linux — 14 MB</a>
+          </div>
+          <ul class="facts" data-note="3">
+            <li><b>New task in two keystrokes</b><span>Keyboard-first entry; the mouse is optional everywhere.</span></li>
+            <li><b>Local-first storage</b><span>Reads and writes on your disk. Works on a plane; sync catches up after landing.</span></li>
+            <li><b>Plain-text export</b><span>One command produces a file other tools can read. Nothing is captive.</span></li>
+          </ul>
+          <div class="trust" data-note="2">Built by two people. Issue tracker public. Free while in beta — pricing will be posted before the first charge.</div>
         </div>
-        <ul class="facts">
-          <li><b>New task in two keystrokes</b><span>Keyboard-first entry; the mouse is optional everywhere.</span></li>
-          <li><b>Local-first storage</b><span>Reads and writes on your disk. Works on a plane; sync catches up after landing.</span></li>
-          <li><b>Plain-text export</b><span>One command produces a file other tools can read. Nothing is captive.</span></li>
-        </ul>
-        <div class="trust">Built by two people. Issue tracker public. Free while in beta — pricing will be posted before the first charge.</div>
       </div>
     </section>
 
   </div>
 
-  <div class="notes">
+  <div class="notes" id="notes">
     <h3>What changed, and why it matters</h3>
     <ol>
-      <li><b>The hero earns its place with a mechanism.</b> &ldquo;Supercharge your productivity&rdquo; could headline any product in existence — the portability test fails on sight. &ldquo;A to-do list that works offline&rdquo; names what it does and the condition it does it under.</li>
-      <li><b>No invented numbers.</b> 10x, 50k, 99.99% and &ldquo;Sarah M., CEO&rdquo; have no source, so they are gone. What replaces them is checkable: a download size, a public issue tracker, a pricing commitment before the first charge.</li>
-      <li><b>Feature cards become facts.</b> Three interchangeable cards with emoji are decoration doing hierarchy&rsquo;s job. The after lists capabilities with their mechanism and a consequence — &ldquo;works on a plane&rdquo; beats &ldquo;blazing-fast&rdquo; because it is either true or false.</li>
-      <li><b>Buttons predict their result.</b> Three &ldquo;Get Started&rdquo; buttons told you nothing about what happens next. &ldquo;Download for macOS, Windows, Linux&rdquo; is an action you can evaluate before taking.</li>
-      <li><b>One accent color, used twice.</b> The before runs a gradient hero, a yellow pill button, and a lavender stats band; three areas compete for the first glance. The after keeps a single accent for the two links that do something.</li>
-      <li><b>The voice stops performing.</b> &ldquo;Effortlessly,&rdquo; &ldquo;next level,&rdquo; and the life-changing testimonial were telling the reader how to feel. The after states the facts and stops.</li>
+      <li data-for="1"><span class="idx">1</span><div><b>The hero earns its place with a mechanism.</b> &ldquo;Supercharge your productivity&rdquo; could headline any product in existence — the portability test fails on sight. &ldquo;A to-do list that works offline&rdquo; names what it does and the condition it does it under.</div></li>
+      <li data-for="2"><span class="idx">2</span><div><b>No invented numbers.</b> 10x, 50k, 99.99% and &ldquo;Sarah M., CEO&rdquo; have no source, so they are gone. What replaces them is checkable: a download size, a public issue tracker, a pricing commitment before the first charge.</div></li>
+      <li data-for="3"><span class="idx">3</span><div><b>Feature cards become facts.</b> Three interchangeable cards with emoji are decoration doing hierarchy&rsquo;s job. The after lists capabilities with their mechanism and a consequence — &ldquo;works on a plane&rdquo; beats &ldquo;blazing-fast&rdquo; because it is either true or false.</div></li>
+      <li data-for="4"><span class="idx">4</span><div><b>Buttons predict their result.</b> Three &ldquo;Get Started&rdquo; buttons told you nothing about what happens next. &ldquo;Download for macOS, Windows, Linux&rdquo; is an action you can evaluate before taking.</div></li>
+      <li data-for="5"><span class="idx">5</span><div><b>One accent color, used twice.</b> The before runs a gradient hero, a yellow pill button, and a lavender stats band; three areas compete for the first glance. The after keeps a single accent for the two links that do something.</div></li>
+      <li data-for="6"><span class="idx">6</span><div><b>The voice stops performing.</b> &ldquo;Effortlessly,&rdquo; &ldquo;next level,&rdquo; and the life-changing testimonial were telling the reader how to feel. The after states the facts and stops.</div></li>
     </ol>
   </div>
 
   <footer class="page">
-    Demo ships with <a href="https://github.com/thedevmark/restraint-framework">restraint-framework</a>, a restraint-first design and writing skill for coding agents. The before panel is a reconstruction of the defaults, not any specific product&rsquo;s page.
+    <div>Demo ships with <a href="https://github.com/thedevmark/restraint-framework">restraint-framework</a>, a restraint-first design and writing skill for coding agents. The before panel is a reconstruction of the defaults, not any specific product&rsquo;s page.</div>
+    <div class="mono">single file · no dependencies · no tracking</div>
   </footer>
 
 </div>
+
+<script>
+  var notes = document.querySelectorAll('.notes li[data-for]');
+  var regions = document.querySelectorAll('[data-note]');
+  function set(n, on) {
+    regions.forEach(function (r) {
+      if (r.getAttribute('data-note') === n) r.classList.toggle('on', on);
+    });
+  }
+  notes.forEach(function (li) {
+    li.addEventListener('mouseenter', function () { set(li.getAttribute('data-for'), true); });
+    li.addEventListener('mouseleave', function () { set(li.getAttribute('data-for'), false); });
+  });
+</script>
 </body>
 </html>

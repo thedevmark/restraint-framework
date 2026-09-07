@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>restraint-framework — a before/after</title>
+<style>
+  :root { --ink:#1a1a1a; --sub:#5c5c5c; --line:#e4e4e4; --accent:#0a5c3c; --bg:#fafafa; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font:16px/1.55 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color:var(--ink); background:var(--bg); }
+  .wrap { max-width:1180px; margin:0 auto; padding:28px 20px 60px; }
+
+  header.page { border-bottom:1px solid var(--line); padding-bottom:18px; margin-bottom:26px; }
+  header.page h1 { font-size:20px; font-weight:650; letter-spacing:-0.01em; }
+  header.page p { color:var(--sub); font-size:14.5px; margin-top:4px; max-width:60ch; }
+  header.page a { color:var(--accent); text-decoration:none; }
+
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  @media (max-width:860px){ .split { grid-template-columns:1fr; } }
+  .panel-tag { font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--sub); margin-bottom:8px; font-weight:600; }
+  .panel { border:1px solid var(--line); background:#fff; border-radius:8px; overflow:hidden; }
+
+  /* ---------- the exhibit: deliberately generated-looking ---------- */
+  .slop .hero { background:linear-gradient(135deg,#6a11cb 0%,#2575fc 100%); color:#fff; text-align:center; padding:38px 22px; }
+  .slop .hero h2 { font-size:24px; margin-bottom:8px; }
+  .slop .hero p { font-size:14px; opacity:.95; max-width:40ch; margin:0 auto 14px; }
+  .slop .btn { display:inline-block; background:#ffd633; color:#333; font-weight:700; padding:9px 22px; border-radius:99px; font-size:14px; }
+  .slop nav { display:flex; justify-content:space-between; align-items:center; padding:10px 16px; border-bottom:1px solid #eee; font-size:13px; }
+  .slop nav b { font-size:14px; }
+  .slop .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:18px 16px; }
+  .slop .card { border:1px solid #e8e8f0; border-radius:10px; padding:14px; text-align:center; box-shadow:0 2px 8px rgba(80,60,180,.07); }
+  .slop .card h3 { font-size:14px; margin:6px 0 4px; }
+  .slop .card p { font-size:12.5px; color:#666; }
+  .slop .stats { display:flex; justify-content:space-around; padding:14px 10px; background:#f6f4ff; font-size:13px; }
+  .slop .stats b { display:block; font-size:18px; color:#5a3ecb; }
+  .slop .quote { text-align:center; padding:18px 22px; font-style:italic; color:#444; font-size:14px; }
+  .slop .finalcta { background:#222; color:#fff; text-align:center; padding:16px; font-size:14px; }
+
+  /* ---------- the same product, after restraint ---------- */
+  .clean .crumb { padding:10px 18px; border-bottom:1px solid var(--line); font-size:13px; display:flex; justify-content:space-between; align-items:center; }
+  .clean .crumb a { color:var(--accent); text-decoration:none; }
+  .clean .hero { padding:34px 20px 26px; border-bottom:1px solid var(--line); }
+  .clean .hero h2 { font-size:22px; letter-spacing:-0.01em; }
+  .clean .hero p { color:var(--sub); font-size:14.5px; margin-top:6px; max-width:44ch; }
+  .clean .hero .dl { display:block; margin-top:14px; color:var(--accent); font-weight:600; text-decoration:none; font-size:14.5px; }
+  .clean .facts { padding:6px 20px 10px; }
+  .clean .facts li { list-style:none; padding:12px 0; border-bottom:1px solid var(--line); font-size:14.5px; }
+  .clean .facts li:last-child { border-bottom:0; }
+  .clean .facts b { display:block; font-size:15px; margin-bottom:2px; }
+  .clean .facts span { color:var(--sub); }
+  .clean .trust { padding:12px 20px 16px; color:var(--sub); font-size:13px; border-top:1px solid var(--line); }
+
+  /* ---------- annotations ---------- */
+  .notes { margin-top:26px; }
+  .notes h3 { font-size:15px; margin-bottom:10px; }
+  .notes ol { padding-left:20px; color:var(--ink); }
+  .notes li { font-size:14px; margin-bottom:7px; max-width:78ch; }
+  .notes code { background:#f0f0f0; border-radius:4px; padding:1px 5px; font-size:12.5px; }
+  .mark { display:inline-block; min-width:18px; text-align:center; background:var(--accent); color:#fff; border-radius:99px; font-size:11px; font-weight:700; padding:1px 4px; margin-right:6px; position:relative; top:-1px; }
+
+  footer.page { margin-top:34px; padding-top:14px; border-top:1px solid var(--line); color:var(--sub); font-size:13.5px; }
+  footer.page a { color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="page">
+    <h1>restraint-framework — a before/after</h1>
+    <p>The same product page, twice. Left is what a coding agent ships by default. Right is the same content after the <a href="https://github.com/thedevmark/restraint-framework">restraint-framework</a> skill. The product is invented; the patterns on the left are not.</p>
+  </header>
+
+  <div class="split">
+
+    <section>
+      <div class="panel-tag">Before — the defaults <span class="mark">1</span><span class="mark">2</span><span class="mark">3</span></div>
+      <div class="panel slop">
+        <nav><b>TaskFlow</b><a class="btn" style="padding:5px 14px;font-size:12px">Get Started</a></nav>
+        <div class="hero">
+          <h2>Supercharge Your Productivity with TaskFlow</h2>
+          <p>Unlock seamless workflows and elevate your daily tasks to the next level. The intelligent workspace that empowers modern teams to achieve more, effortlessly.</p>
+          <a class="btn">Get Started</a>
+        </div>
+        <div class="cards">
+          <div class="card"><div>⚡</div><h3>Lightning Fast</h3><p>Experience blazing-fast performance like never before.</p></div>
+          <div class="card"><div>🎨</div><h3>Beautiful Design</h3><p>Stunning interfaces that inspire creativity every day.</p></div>
+          <div class="card"><div>🔒</div><h3>Secure by Design</h3><p>Enterprise-grade security you can always trust.</p></div>
+        </div>
+        <div class="stats">
+          <div><b>10x</b>productivity boost</div>
+          <div><b>50k</b>happy users</div>
+          <div><b>99.99%</b>uptime</div>
+        </div>
+        <div class="quote">&ldquo;TaskFlow completely changed my life!&rdquo; — Sarah M., CEO</div>
+        <div class="finalcta">Ready to transform your workflow? <a class="btn" style="font-size:12px;padding:6px 14px">Get Started</a></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel-tag">After — same product, restraint applied <span class="mark">1</span><span class="mark">2</span><span class="mark">3</span></div>
+      <div class="panel clean">
+        <div class="crumb"><b>TaskFlow</b><a href="#">Download</a></div>
+        <div class="hero">
+          <h2>A to-do list that works offline</h2>
+          <p>Tasks live on your machine and sync between devices with end-to-end encryption. No account to start, and your list exports to plain text any time.</p>
+          <a class="dl" href="#">Download for macOS, Windows, Linux — 14 MB</a>
+        </div>
+        <ul class="facts">
+          <li><b>New task in two keystrokes</b><span>Keyboard-first entry; the mouse is optional everywhere.</span></li>
+          <li><b>Local-first storage</b><span>Reads and writes on your disk. Works on a plane; sync catches up after landing.</span></li>
+          <li><b>Plain-text export</b><span>One command produces a file other tools can read. Nothing is captive.</span></li>
+        </ul>
+        <div class="trust">Built by two people. Issue tracker public. Free while in beta — pricing will be posted before the first charge.</div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="notes">
+    <h3>What changed, and why it matters</h3>
+    <ol>
+      <li><b>The hero earns its place with a mechanism.</b> &ldquo;Supercharge your productivity&rdquo; could headline any product in existence — the portability test fails on sight. &ldquo;A to-do list that works offline&rdquo; names what it does and the condition it does it under.</li>
+      <li><b>No invented numbers.</b> 10x, 50k, 99.99% and &ldquo;Sarah M., CEO&rdquo; have no source, so they are gone. What replaces them is checkable: a download size, a public issue tracker, a pricing commitment. Trust that survives a click.</li>
+      <li><b>Feature cards become facts.</b> Three interchangeable cards with emoji are decoration doing hierarchy&rsquo;s job. The after lists capabilities with their mechanism and a consequence — &ldquo;works on a plane&rdquo; beats &ldquo;blazing-fast&rdquo; because it is either true or false.</li>
+      <li><b>Buttons predict their result.</b> Three &ldquo;Get Started&rdquo; buttons told you nothing about what happens next. &ldquo;Download for macOS, Windows, Linux&rdquo; is an action you can evaluate before taking.</li>
+      <li><b>One accent color, used twice.</b> The gradient hero and yellow pill fought every element on the page for attention. Emphasis spent everywhere is emphasis spent nowhere.</li>
+      <li><b>The voice stops performing.</b> &ldquo;Effortlessly,&rdquo; &ldquo;next level,&rdquo; and the life-changing testimonial were doing the reader&rsquo;s feeling for them. The after states facts and lets them land.</li>
+    </ol>
+  </div>
+
+  <footer class="page">
+    Demo ships with <a href="https://github.com/thedevmark/restraint-framework">restraint-framework</a>, a restraint-first design and writing skill for coding agents. The before panel is a reconstruction of the defaults, not any specific product&rsquo;s page.
+  </footer>
+
+</div>
+</body>
+</html>
